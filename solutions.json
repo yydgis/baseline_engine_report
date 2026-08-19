@@ -8,8 +8,8 @@
   "summary": {
     "total_stations": 106,
     "total_baselines": 2,
-    "overall_fix_rate": 44.9,
-    "mean_3d_rms": 2.131,
+    "overall_fix_rate": 100.0,
+    "mean_3d_rms": 0.038,
     "avg_length_km": 0.0
   },
   "stations": [
@@ -581,6 +581,32 @@
       },
       "modes": {
         "Option_A": {
+          "fix_rate": 100.0,
+          "n_mean": -0.0007,
+          "e_mean": -0.0254,
+          "u_mean": -0.0304,
+          "n_rms": 0.0102,
+          "e_rms": 0.0278,
+          "u_rms": 0.0355,
+          "rms_3d": 0.0462,
+          "total_epochs": 3600,
+          "fixed_epochs": 3600,
+          "solution_csv": "../solutions/2026-08-17-00_9CB8B48EB9DC_C05D898CC52D_Option_A.csv"
+        },
+        "Option_B": {
+          "fix_rate": 100.0,
+          "n_mean": -0.0004,
+          "e_mean": -0.0254,
+          "u_mean": -0.0306,
+          "n_rms": 0.0103,
+          "e_rms": 0.0277,
+          "u_rms": 0.0358,
+          "rms_3d": 0.0464,
+          "total_epochs": 3600,
+          "fixed_epochs": 3600,
+          "solution_csv": "../solutions/2026-08-17-00_9CB8B48EB9DC_C05D898CC52D_Option_B.csv"
+        },
+        "Option_C": {
           "fix_rate": 38.6,
           "n_mean": 0.5959,
           "e_mean": -0.5549,
@@ -590,7 +616,8 @@
           "u_rms": 0.8472,
           "rms_3d": 1.2328,
           "total_epochs": 3600,
-          "fixed_epochs": 1389
+          "fixed_epochs": 1389,
+          "solution_csv": "../solutions/2026-08-17-00_9CB8B48EB9DC_C05D898CC52D_Option_C.csv"
         }
       }
     },
@@ -610,6 +637,32 @@
       },
       "modes": {
         "Option_A": {
+          "fix_rate": 100.0,
+          "n_mean": 0.0153,
+          "e_mean": 0.0066,
+          "u_mean": -0.0081,
+          "n_rms": 0.0166,
+          "e_rms": 0.0096,
+          "u_rms": 0.0217,
+          "rms_3d": 0.029,
+          "total_epochs": 3396,
+          "fixed_epochs": 3396,
+          "solution_csv": "../solutions/2026-08-17-00_30C6F7BE5EC1_40D95A569D1E_Option_A.csv"
+        },
+        "Option_B": {
+          "fix_rate": 100.0,
+          "n_mean": 0.0154,
+          "e_mean": 0.0064,
+          "u_mean": -0.0081,
+          "n_rms": 0.0167,
+          "e_rms": 0.0092,
+          "u_rms": 0.0207,
+          "rms_3d": 0.0281,
+          "total_epochs": 3396,
+          "fixed_epochs": 3395,
+          "solution_csv": "../solutions/2026-08-17-00_30C6F7BE5EC1_40D95A569D1E_Option_B.csv"
+        },
+        "Option_C": {
           "fix_rate": 51.1,
           "n_mean": 0.5323,
           "e_mean": 0.2765,
@@ -619,7 +672,8 @@
           "u_rms": 2.955,
           "rms_3d": 3.0295,
           "total_epochs": 3396,
-          "fixed_epochs": 1735
+          "fixed_epochs": 1735,
+          "solution_csv": "../solutions/2026-08-17-00_30C6F7BE5EC1_40D95A569D1E_Option_C.csv"
         }
       }
     }

@@ -90,7 +90,7 @@
     }
     .main-layout {
       display: grid;
-      grid-template-columns: 1fr 430px;
+      grid-template-columns: 1fr 440px;
       flex: 1;
       height: calc(100vh - 61px);
     }
@@ -266,8 +266,8 @@
     .popup-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px 10px;
-      font-size: 0.78rem;
+      gap: 4px 8px;
+      font-size: 0.76rem;
     }
     .popup-label {
       color: var(--text-muted);
@@ -288,6 +288,16 @@
       white-space: nowrap;
       pointer-events: none;
       box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .mode-tab {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #334155;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 4px;
+      margin-right: 4px;
     }
   </style>
 </head>
@@ -380,10 +390,9 @@
               <tr>
                 <th>Baseline</th>
                 <th>Len (km)</th>
-                <th>dN (m)</th>
-                <th>dE (m)</th>
-                <th>dU (m)</th>
-                <th>Fix %</th>
+                <th>Option A</th>
+                <th>Option B</th>
+                <th>Option C</th>
               </tr>
             </thead>
             <tbody id="table-body">
@@ -395,7 +404,7 @@
   </div>
 
   <script>
-    const data = {"timestamp": "2026-08-17 00:00 UTC", "seed": {"lat": 37.4, "lon": -121.97, "dist_km": 100.0}, "summary": {"total_stations": 106, "total_baselines": 2, "overall_fix_rate": 44.9, "mean_3d_rms": 2.131, "avg_length_km": 0.0}, "stations": [{"name": "24DCC3E2A789", "lat": 37.4, "lon": -121.97}, {"name": "94E686860485", "lat": 37.4, "lon": -121.99}, {"name": "24DCC3E29C65", "lat": 37.37, "lon": -122.03}, {"name": "40D95A5702B2", "lat": 37.34, "lon": -121.95}, {"name": "08D1F96378ED", "lat": 37.46, "lon": -121.91}, {"name": "94B555A54D49", "lat": 37.41, "lon": -121.85}, {"name": "40D95A570290", "lat": 37.3, "lon": -121.95}, {"name": "34987A6E288D", "lat": 37.42, "lon": -122.1}, {"name": "C0F535B29F02", "lat": 37.42, "lon": -122.1}, {"name": "40D95A8BFA88", "lat": 37.29, "lon": -122.0}, {"name": "C82E1891B2A1", "lat": 37.39, "lon": -121.84}, {"name": "08D1F9A2D435", "lat": 37.36, "lon": -122.11}, {"name": "9CB8B48C8E10", "lat": 37.52, "lon": -121.96}, {"name": "244CABCEB461", "lat": 37.53, "lon": -121.93}, {"name": "24DCC3E1128D", "lat": 37.36, "lon": -121.81}, {"name": "9CB8B48EBA0C", "lat": 37.36, "lon": -121.81}, {"name": "STFU", "lat": 37.43, "lon": -122.17}, {"name": "40D95A570CE4", "lat": 37.24, "lon": -121.89}, {"name": "9CB8B48E9D12", "lat": 37.28, "lon": -121.81}, {"name": "C05D898E1C8D", "lat": 37.3, "lon": -121.79}, {"name": "9CB8B453C9D6", "lat": 37.47, "lon": -122.23}, {"name": "E465B8A003F9", "lat": 37.23, "lon": -121.76}, {"name": "40D95A57028E", "lat": 37.5, "lon": -122.28}, {"name": "E831CD2ABD31", "lat": 37.52, "lon": -122.3}, {"name": "9CB8B4F0994A", "lat": 37.67, "lon": -122.1}, {"name": "9CB8B48C7DCC", "lat": 37.69, "lon": -122.05}, {"name": "94E686860635", "lat": 37.1, "lon": -121.89}, {"name": "9CB8B48C2D2C", "lat": 37.55, "lon": -122.32}, {"name": "8C4B147727E1", "lat": 37.52, "lon": -122.35}, {"name": "94E686860439", "lat": 37.69, "lon": -122.16}, {"name": "40D95A56A3F2", "lat": 37.72, "lon": -122.09}, {"name": "40D95A5702BE", "lat": 37.71, "lon": -122.17}, {"name": "94E686860601", "lat": 37.71, "lon": -122.17}, {"name": "40D95A5702DA", "lat": 37.15, "lon": -121.66}, {"name": "9CB8B48DF056", "lat": 37.59, "lon": -122.35}, {"name": "E831CDFA7B91", "lat": 37.13, "lon": -121.66}, {"name": "8C4B147973D5", "lat": 37.76, "lon": -121.89}, {"name": "30C6F7BEB9BD", "lat": 37.59, "lon": -122.4}, {"name": "9CB8B48E9CE6", "lat": 37.58, "lon": -122.47}, {"name": "E831CD306D61", "lat": 37.58, "lon": -122.47}, {"name": "30C922A65D1D", "lat": 37.8, "lon": -122.2}, {"name": "C0F535B29F80", "lat": 37.65, "lon": -122.43}, {"name": "E465B89DB1D1", "lat": 37.72, "lon": -122.39}, {"name": "24DCC3E10D61", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C3DA4", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C1C8A", "lat": 37.73, "lon": -122.4}, {"name": "A842E3B1C9F9", "lat": 37.85, "lon": -122.15}, {"name": "5C013B9711E5", "lat": 37.65, "lon": -122.48}, {"name": "24DCC32BB2A1", "lat": 37.02, "lon": -121.58}, {"name": "30C922A64C01", "lat": 37.86, "lon": -122.25}, {"name": "9CB8B48C2C9E", "lat": 37.77, "lon": -122.44}, {"name": "E465B89FF25D", "lat": 37.71, "lon": -121.44}, {"name": "9CB8B4F1FCE2", "lat": 37.88, "lon": -122.27}, {"name": "9CB8B4F099D8", "lat": 37.94, "lon": -122.05}, {"name": "8C4B147ADB6D", "lat": 37.72, "lon": -121.41}, {"name": "E831CD30C699", "lat": 37.95, "lon": -122.06}, {"name": "14335C5CB161", "lat": 37.96, "lon": -121.98}, {"name": "E0E2E6367351", "lat": 37.9, "lon": -121.6}, {"name": "9CB8B48C3CC8", "lat": 37.99, "lon": -122.1}, {"name": "24DCC3E2183D", "lat": 37.99, "lon": -121.81}, {"name": "C05D898E016D", "lat": 38.0, "lon": -122.03}, {"name": "24DCC3E20D15", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E108D1", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E2010D", "lat": 38.02, "lon": -121.91}, {"name": "AC1518EE9485", "lat": 37.8, "lon": -121.34}, {"name": "1097BDCBAD85", "lat": 37.9, "lon": -122.51}, {"name": "40D95A570280", "lat": 38.01, "lon": -122.27}, {"name": "C05D89A91C15", "lat": 38.01, "lon": -122.28}, {"name": "8C4B14797A05", "lat": 38.0, "lon": -122.31}, {"name": "40D95A8C0A6E", "lat": 38.0, "lon": -122.31}, {"name": "AC1518EE37B5", "lat": 37.99, "lon": -122.35}, {"name": "E465B86A03E1", "lat": 37.78, "lon": -121.26}, {"name": "9CB8B48EB9C0", "lat": 38.07, "lon": -122.15}, {"name": "94B555A3B3C5", "lat": 38.07, "lon": -122.15}, {"name": "24DCC3E205E5", "lat": 37.79, "lon": -121.24}, {"name": "30C6F7BE5EC1", "lat": 36.85, "lon": -121.42}, {"name": "40D95A569D1E", "lat": 36.85, "lon": -121.42}, {"name": "40D95A56E896", "lat": 37.82, "lon": -121.22}, {"name": "40D95A569A14", "lat": 38.1, "lon": -122.23}, {"name": "C82E1891A449", "lat": 37.98, "lon": -122.57}, {"name": "5C013B96F7C1", "lat": 38.12, "lon": -122.23}, {"name": "9CB8B4F0EC5C", "lat": 38.12, "lon": -122.23}, {"name": "40D95A5702E4", "lat": 38.12, "lon": -122.25}, {"name": "24DCC3E20D49", "lat": 37.93, "lon": -121.29}, {"name": "9CB8B48D2EE6", "lat": 36.69, "lon": -121.59}, {"name": "30C6F7BED41D", "lat": 36.69, "lon": -121.59}, {"name": "9CB8B48E9C72", "lat": 37.94, "lon": -121.28}, {"name": "40D95A8B7D58", "lat": 37.97, "lon": -121.29}, {"name": "C05D898D22B9", "lat": 36.66, "lon": -121.66}, {"name": "9CB8B48EB9DC", "lat": 37.65, "lon": -121.04}, {"name": "C05D898CC52D", "lat": 37.65, "lon": -121.04}, {"name": "40D95A8B4CFE", "lat": 38.02, "lon": -121.36}, {"name": "40D95A56E898", "lat": 37.96, "lon": -121.27}, {"name": "E465B89FFBF5", "lat": 37.69, "lon": -121.05}, {"name": "24DCC3E10C8D", "lat": 38.16, "lon": -122.26}, {"name": "8C4B1477AE65", "lat": 38.05, "lon": -121.39}, {"name": "40D95A56E440", "lat": 38.02, "lon": -121.32}, {"name": "30C6F7BE42D5", "lat": 37.59, "lon": -120.97}, {"name": "30C6F7BD24A5", "lat": 37.69, "lon": -121.0}, {"name": "9CB8B48BFCC0", "lat": 36.58, "lon": -121.82}, {"name": "34987A6EE501", "lat": 36.58, "lon": -121.82}, {"name": "40D95A5699EE", "lat": 38.22, "lon": -122.13}, {"name": "40D95A57032C", "lat": 38.09, "lon": -122.56}, {"name": "08D1F9637B99", "lat": 37.7, "lon": -120.97}, {"name": "A0B7651E2E09", "lat": 36.53, "lon": -121.87}, {"name": "E465B8A009C1", "lat": 37.73, "lon": -120.92}], "delaunay_edges": [{"base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0}, {"base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0}], "baselines": [{"id": "9CB8B48EB9DC_to_C05D898CC52D", "base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.1666, "dy": 0.1706, "dz": 0.1051}, "modes": {"Option_A": {"fix_rate": 38.6, "n_mean": 0.5959, "e_mean": -0.5549, "u_mean": -0.7936, "n_rms": 0.6442, "e_rms": 0.6222, "u_rms": 0.8472, "rms_3d": 1.2328, "total_epochs": 3600, "fixed_epochs": 1389}}}, {"id": "30C6F7BE5EC1_to_40D95A569D1E", "base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.2933, "dy": -0.0259, "dz": -0.0266}, "modes": {"Option_A": {"fix_rate": 51.1, "n_mean": 0.5323, "e_mean": 0.2765, "u_mean": -2.6277, "n_rms": 0.5701, "e_rms": 0.3474, "u_rms": 2.955, "rms_3d": 3.0295, "total_epochs": 3396, "fixed_epochs": 1735}}}]};
+    const data = {"timestamp": "2026-08-17 00:00 UTC", "seed": {"lat": 37.4, "lon": -121.97, "dist_km": 100.0}, "summary": {"total_stations": 106, "total_baselines": 2, "overall_fix_rate": 100.0, "mean_3d_rms": 0.038, "avg_length_km": 0.0}, "stations": [{"name": "24DCC3E2A789", "lat": 37.4, "lon": -121.97}, {"name": "94E686860485", "lat": 37.4, "lon": -121.99}, {"name": "24DCC3E29C65", "lat": 37.37, "lon": -122.03}, {"name": "40D95A5702B2", "lat": 37.34, "lon": -121.95}, {"name": "08D1F96378ED", "lat": 37.46, "lon": -121.91}, {"name": "94B555A54D49", "lat": 37.41, "lon": -121.85}, {"name": "40D95A570290", "lat": 37.3, "lon": -121.95}, {"name": "34987A6E288D", "lat": 37.42, "lon": -122.1}, {"name": "C0F535B29F02", "lat": 37.42, "lon": -122.1}, {"name": "40D95A8BFA88", "lat": 37.29, "lon": -122.0}, {"name": "C82E1891B2A1", "lat": 37.39, "lon": -121.84}, {"name": "08D1F9A2D435", "lat": 37.36, "lon": -122.11}, {"name": "9CB8B48C8E10", "lat": 37.52, "lon": -121.96}, {"name": "244CABCEB461", "lat": 37.53, "lon": -121.93}, {"name": "24DCC3E1128D", "lat": 37.36, "lon": -121.81}, {"name": "9CB8B48EBA0C", "lat": 37.36, "lon": -121.81}, {"name": "STFU", "lat": 37.43, "lon": -122.17}, {"name": "40D95A570CE4", "lat": 37.24, "lon": -121.89}, {"name": "9CB8B48E9D12", "lat": 37.28, "lon": -121.81}, {"name": "C05D898E1C8D", "lat": 37.3, "lon": -121.79}, {"name": "9CB8B453C9D6", "lat": 37.47, "lon": -122.23}, {"name": "E465B8A003F9", "lat": 37.23, "lon": -121.76}, {"name": "40D95A57028E", "lat": 37.5, "lon": -122.28}, {"name": "E831CD2ABD31", "lat": 37.52, "lon": -122.3}, {"name": "9CB8B4F0994A", "lat": 37.67, "lon": -122.1}, {"name": "9CB8B48C7DCC", "lat": 37.69, "lon": -122.05}, {"name": "94E686860635", "lat": 37.1, "lon": -121.89}, {"name": "9CB8B48C2D2C", "lat": 37.55, "lon": -122.32}, {"name": "8C4B147727E1", "lat": 37.52, "lon": -122.35}, {"name": "94E686860439", "lat": 37.69, "lon": -122.16}, {"name": "40D95A56A3F2", "lat": 37.72, "lon": -122.09}, {"name": "40D95A5702BE", "lat": 37.71, "lon": -122.17}, {"name": "94E686860601", "lat": 37.71, "lon": -122.17}, {"name": "40D95A5702DA", "lat": 37.15, "lon": -121.66}, {"name": "9CB8B48DF056", "lat": 37.59, "lon": -122.35}, {"name": "E831CDFA7B91", "lat": 37.13, "lon": -121.66}, {"name": "8C4B147973D5", "lat": 37.76, "lon": -121.89}, {"name": "30C6F7BEB9BD", "lat": 37.59, "lon": -122.4}, {"name": "9CB8B48E9CE6", "lat": 37.58, "lon": -122.47}, {"name": "E831CD306D61", "lat": 37.58, "lon": -122.47}, {"name": "30C922A65D1D", "lat": 37.8, "lon": -122.2}, {"name": "C0F535B29F80", "lat": 37.65, "lon": -122.43}, {"name": "E465B89DB1D1", "lat": 37.72, "lon": -122.39}, {"name": "24DCC3E10D61", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C3DA4", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C1C8A", "lat": 37.73, "lon": -122.4}, {"name": "A842E3B1C9F9", "lat": 37.85, "lon": -122.15}, {"name": "5C013B9711E5", "lat": 37.65, "lon": -122.48}, {"name": "24DCC32BB2A1", "lat": 37.02, "lon": -121.58}, {"name": "30C922A64C01", "lat": 37.86, "lon": -122.25}, {"name": "9CB8B48C2C9E", "lat": 37.77, "lon": -122.44}, {"name": "E465B89FF25D", "lat": 37.71, "lon": -121.44}, {"name": "9CB8B4F1FCE2", "lat": 37.88, "lon": -122.27}, {"name": "9CB8B4F099D8", "lat": 37.94, "lon": -122.05}, {"name": "8C4B147ADB6D", "lat": 37.72, "lon": -121.41}, {"name": "E831CD30C699", "lat": 37.95, "lon": -122.06}, {"name": "14335C5CB161", "lat": 37.96, "lon": -121.98}, {"name": "E0E2E6367351", "lat": 37.9, "lon": -121.6}, {"name": "9CB8B48C3CC8", "lat": 37.99, "lon": -122.1}, {"name": "24DCC3E2183D", "lat": 37.99, "lon": -121.81}, {"name": "C05D898E016D", "lat": 38.0, "lon": -122.03}, {"name": "24DCC3E20D15", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E108D1", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E2010D", "lat": 38.02, "lon": -121.91}, {"name": "AC1518EE9485", "lat": 37.8, "lon": -121.34}, {"name": "1097BDCBAD85", "lat": 37.9, "lon": -122.51}, {"name": "40D95A570280", "lat": 38.01, "lon": -122.27}, {"name": "C05D89A91C15", "lat": 38.01, "lon": -122.28}, {"name": "8C4B14797A05", "lat": 38.0, "lon": -122.31}, {"name": "40D95A8C0A6E", "lat": 38.0, "lon": -122.31}, {"name": "AC1518EE37B5", "lat": 37.99, "lon": -122.35}, {"name": "E465B86A03E1", "lat": 37.78, "lon": -121.26}, {"name": "9CB8B48EB9C0", "lat": 38.07, "lon": -122.15}, {"name": "94B555A3B3C5", "lat": 38.07, "lon": -122.15}, {"name": "24DCC3E205E5", "lat": 37.79, "lon": -121.24}, {"name": "30C6F7BE5EC1", "lat": 36.85, "lon": -121.42}, {"name": "40D95A569D1E", "lat": 36.85, "lon": -121.42}, {"name": "40D95A56E896", "lat": 37.82, "lon": -121.22}, {"name": "40D95A569A14", "lat": 38.1, "lon": -122.23}, {"name": "C82E1891A449", "lat": 37.98, "lon": -122.57}, {"name": "5C013B96F7C1", "lat": 38.12, "lon": -122.23}, {"name": "9CB8B4F0EC5C", "lat": 38.12, "lon": -122.23}, {"name": "40D95A5702E4", "lat": 38.12, "lon": -122.25}, {"name": "24DCC3E20D49", "lat": 37.93, "lon": -121.29}, {"name": "9CB8B48D2EE6", "lat": 36.69, "lon": -121.59}, {"name": "30C6F7BED41D", "lat": 36.69, "lon": -121.59}, {"name": "9CB8B48E9C72", "lat": 37.94, "lon": -121.28}, {"name": "40D95A8B7D58", "lat": 37.97, "lon": -121.29}, {"name": "C05D898D22B9", "lat": 36.66, "lon": -121.66}, {"name": "9CB8B48EB9DC", "lat": 37.65, "lon": -121.04}, {"name": "C05D898CC52D", "lat": 37.65, "lon": -121.04}, {"name": "40D95A8B4CFE", "lat": 38.02, "lon": -121.36}, {"name": "40D95A56E898", "lat": 37.96, "lon": -121.27}, {"name": "E465B89FFBF5", "lat": 37.69, "lon": -121.05}, {"name": "24DCC3E10C8D", "lat": 38.16, "lon": -122.26}, {"name": "8C4B1477AE65", "lat": 38.05, "lon": -121.39}, {"name": "40D95A56E440", "lat": 38.02, "lon": -121.32}, {"name": "30C6F7BE42D5", "lat": 37.59, "lon": -120.97}, {"name": "30C6F7BD24A5", "lat": 37.69, "lon": -121.0}, {"name": "9CB8B48BFCC0", "lat": 36.58, "lon": -121.82}, {"name": "34987A6EE501", "lat": 36.58, "lon": -121.82}, {"name": "40D95A5699EE", "lat": 38.22, "lon": -122.13}, {"name": "40D95A57032C", "lat": 38.09, "lon": -122.56}, {"name": "08D1F9637B99", "lat": 37.7, "lon": -120.97}, {"name": "A0B7651E2E09", "lat": 36.53, "lon": -121.87}, {"name": "E465B8A009C1", "lat": 37.73, "lon": -120.92}], "delaunay_edges": [{"base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0}, {"base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0}], "baselines": [{"id": "9CB8B48EB9DC_to_C05D898CC52D", "base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.1666, "dy": 0.1706, "dz": 0.1051}, "modes": {"Option_A": {"fix_rate": 100.0, "n_mean": -0.0007, "e_mean": -0.0254, "u_mean": -0.0304, "n_rms": 0.0102, "e_rms": 0.0278, "u_rms": 0.0355, "rms_3d": 0.0462, "total_epochs": 3600, "fixed_epochs": 3600, "solution_csv": "../solutions/2026-08-17-00_9CB8B48EB9DC_C05D898CC52D_Option_A.csv"}, "Option_B": {"fix_rate": 100.0, "n_mean": -0.0004, "e_mean": -0.0254, "u_mean": -0.0306, "n_rms": 0.0103, "e_rms": 0.0277, "u_rms": 0.0358, "rms_3d": 0.0464, "total_epochs": 3600, "fixed_epochs": 3600, "solution_csv": "../solutions/2026-08-17-00_9CB8B48EB9DC_C05D898CC52D_Option_B.csv"}, "Option_C": {"fix_rate": 38.6, "n_mean": 0.5959, "e_mean": -0.5549, "u_mean": -0.7936, "n_rms": 0.6442, "e_rms": 0.6222, "u_rms": 0.8472, "rms_3d": 1.2328, "total_epochs": 3600, "fixed_epochs": 1389, "solution_csv": "../solutions/2026-08-17-00_9CB8B48EB9DC_C05D898CC52D_Option_C.csv"}}}, {"id": "30C6F7BE5EC1_to_40D95A569D1E", "base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.2933, "dy": -0.0259, "dz": -0.0266}, "modes": {"Option_A": {"fix_rate": 100.0, "n_mean": 0.0153, "e_mean": 0.0066, "u_mean": -0.0081, "n_rms": 0.0166, "e_rms": 0.0096, "u_rms": 0.0217, "rms_3d": 0.029, "total_epochs": 3396, "fixed_epochs": 3396, "solution_csv": "../solutions/2026-08-17-00_30C6F7BE5EC1_40D95A569D1E_Option_A.csv"}, "Option_B": {"fix_rate": 100.0, "n_mean": 0.0154, "e_mean": 0.0064, "u_mean": -0.0081, "n_rms": 0.0167, "e_rms": 0.0092, "u_rms": 0.0207, "rms_3d": 0.0281, "total_epochs": 3396, "fixed_epochs": 3395, "solution_csv": "../solutions/2026-08-17-00_30C6F7BE5EC1_40D95A569D1E_Option_B.csv"}, "Option_C": {"fix_rate": 51.1, "n_mean": 0.5323, "e_mean": 0.2765, "u_mean": -2.6277, "n_rms": 0.5701, "e_rms": 0.3474, "u_rms": 2.955, "rms_3d": 3.0295, "total_epochs": 3396, "fixed_epochs": 1735, "solution_csv": "../solutions/2026-08-17-00_30C6F7BE5EC1_40D95A569D1E_Option_C.csv"}}}]};
 
     // Update Header & Cards
     document.getElementById('stat-stations').innerText = data.stations ? data.stations.length : 0;
@@ -485,11 +494,17 @@
     // Render Solved Baselines
     const tableBody = document.getElementById('table-body');
     const distData = [];
-    const rmsData = [];
+    const rmsDataA = [];
+    const rmsDataB = [];
 
     (data.baselines || []).forEach(b => {
-      const modeData = b.modes.Option_A || Object.values(b.modes)[0] || {};
-      const fixRate = modeData.fix_rate !== undefined ? modeData.fix_rate : 100.0;
+      const optA = b.modes.Option_A || {};
+      const optB = b.modes.Option_B || {};
+      const optC = b.modes.Option_C || {};
+
+      const primaryMode = optA.fix_rate !== undefined ? optA : (optB.fix_rate !== undefined ? optB : optC);
+      const fixRate = primaryMode.fix_rate !== undefined ? primaryMode.fix_rate : 100.0;
+
       let color = '#22c55e';
       if (fixRate < 50.0) color = '#ef4444';
       else if (fixRate < 95.0) color = '#eab308';
@@ -519,35 +534,45 @@
         })
       }).addTo(labelsGroup);
 
-      // Popup with 2-decimal component errors, masked coordinates
+      // Popup with multi-engine comparison
+      let modesSummaryHtml = '';
+      ['Option_A', 'Option_B', 'Option_C'].forEach(mKey => {
+        if (b.modes[mKey]) {
+          const m = b.modes[mKey];
+          modesSummaryHtml += `
+            <div style="margin-top:6px; padding-top:4px; border-top:1px dashed #334155;">
+              <span class="mode-tab">${mKey.replace('_', ' ')}</span>
+              <b>Fix: ${m.fix_rate.toFixed(1)}%</b> | 3D RMS: <b>${m.rms_3d.toFixed(2)}m</b>
+              <div style="font-size:10px; color:#94a3b8;">dN: ${m.n_rms.toFixed(2)}m, dE: ${m.e_rms.toFixed(2)}m, dU: ${m.u_rms.toFixed(2)}m</div>
+            </div>
+          `;
+        }
+      });
+
       const popupHtml = `
-        <div class="popup-title">Baseline: ${b.base} &rarr; ${b.rover}</div>
+        <div class="popup-title">Baseline: ${b.base} &rarr; ${b.rover} (${b.length_km.toFixed(2)} km)</div>
         <div class="popup-grid">
           <span class="popup-label">Baseline Length:</span>
           <span class="popup-val">${b.length_km.toFixed(2)} km</span>
-          <span class="popup-label">Fix Availability:</span>
+          <span class="popup-label">Primary Fix:</span>
           <span class="popup-val" style="color: ${color};">${fixRate.toFixed(1)}%</span>
-          <span class="popup-label">North Error (dN):</span>
-          <span class="popup-val">${modeData.n_rms !== undefined ? modeData.n_rms.toFixed(2) : '0.01'} m</span>
-          <span class="popup-label">East Error (dE):</span>
-          <span class="popup-val">${modeData.e_rms !== undefined ? modeData.e_rms.toFixed(2) : '0.02'} m</span>
-          <span class="popup-label">Up Error (dU):</span>
-          <span class="popup-val">${modeData.u_rms !== undefined ? modeData.u_rms.toFixed(2) : '0.06'} m</span>
-          <span class="popup-label">Total 3D RMS:</span>
-          <span class="popup-val">${modeData.rms_3d !== undefined ? modeData.rms_3d.toFixed(2) : '0.06'} m</span>
         </div>
+        ${modesSummaryHtml}
       `;
       polyline.bindPopup(popupHtml);
 
       // Populate Table Row
       const row = document.createElement('tr');
+      const textA = optA.fix_rate !== undefined ? `${optA.fix_rate.toFixed(0)}% (${optA.rms_3d.toFixed(2)}m)` : '-';
+      const textB = optB.fix_rate !== undefined ? `${optB.fix_rate.toFixed(0)}% (${optB.rms_3d.toFixed(2)}m)` : '-';
+      const textC = optC.fix_rate !== undefined ? `${optC.fix_rate.toFixed(0)}% (${optC.rms_3d.toFixed(2)}m)` : '-';
+
       row.innerHTML = `
         <td>${b.base.substring(0,6)}... &rarr; ${b.rover.substring(0,6)}...</td>
         <td>${b.length_km.toFixed(2)}</td>
-        <td>${modeData.n_rms !== undefined ? modeData.n_rms.toFixed(2) : '0.01'}</td>
-        <td>${modeData.e_rms !== undefined ? modeData.e_rms.toFixed(2) : '0.02'}</td>
-        <td>${modeData.u_rms !== undefined ? modeData.u_rms.toFixed(2) : '0.06'}</td>
-        <td style="color: ${color}; font-weight: bold;">${fixRate.toFixed(1)}%</td>
+        <td style="color:${optA.fix_rate >= 95 ? '#22c55e' : (optA.fix_rate >= 50 ? '#eab308' : '#ef4444')};">${textA}</td>
+        <td style="color:${optB.fix_rate >= 95 ? '#22c55e' : (optB.fix_rate >= 50 ? '#eab308' : '#ef4444')};">${textB}</td>
+        <td style="color:${optC.fix_rate >= 95 ? '#22c55e' : (optC.fix_rate >= 50 ? '#eab308' : '#ef4444')};">${textC}</td>
       `;
       row.onclick = () => {
         polyline.openPopup();
@@ -556,7 +581,8 @@
       tableBody.appendChild(row);
 
       distData.push(b.length_km);
-      rmsData.push(modeData.rms_3d || 0.06);
+      if (optA.rms_3d !== undefined) rmsDataA.push({ x: b.length_km, y: optA.rms_3d });
+      if (optB.rms_3d !== undefined) rmsDataB.push({ x: b.length_km, y: optB.rms_3d });
     });
 
     if (data.stations && data.stations.length > 0) {
@@ -584,21 +610,29 @@
 
     // Render Scatter Chart
     const ctx = document.getElementById('chart-distance').getContext('2d');
-    const sortedPairs = distData.map((d, i) => ({ x: d, y: rmsData[i] })).sort((a,b) => a.x - b.x);
     new Chart(ctx, {
       type: 'scatter',
       data: {
-        datasets: [{
-          label: '3D RMS (m)',
-          data: sortedPairs,
-          backgroundColor: '#38bdf8',
-          borderColor: '#0284c7',
-          pointRadius: 4
-        }]
+        datasets: [
+          {
+            label: 'Option A (3D RMS)',
+            data: rmsDataA.sort((a,b) => a.x - b.x),
+            backgroundColor: '#38bdf8',
+            borderColor: '#0284c7',
+            pointRadius: 4
+          },
+          {
+            label: 'Option B (3D RMS)',
+            data: rmsDataB.sort((a,b) => a.x - b.x),
+            backgroundColor: '#22c55e',
+            borderColor: '#15803d',
+            pointRadius: 4
+          }
+        ]
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        plugins: { legend: { display: true, labels: { color: '#94a3b8', font: { size: 10 } } } },
         scales: {
           x: {
             title: { display: true, text: 'Distance (km)', color: '#94a3b8' },
