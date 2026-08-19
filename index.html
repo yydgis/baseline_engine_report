@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GNSS Baseline Engine - Network Evaluation Dashboard</title>
+  <title>GNSS Baseline Engine - Delaunay Network Dashboard</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,10 +34,10 @@
       min-height: 100vh;
     }
     header {
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(30, 41, 59, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
-      padding: 16px 28px;
+      padding: 14px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -62,7 +62,7 @@
       color: white;
     }
     .brand h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
@@ -71,17 +71,18 @@
     }
     .stats-bar {
       display: flex;
-      gap: 20px;
+      gap: 14px;
+      flex-wrap: wrap;
     }
     .stat-pill {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .stat-pill .val {
       font-weight: bold;
@@ -89,43 +90,101 @@
     }
     .main-layout {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: 1fr 430px;
       flex: 1;
-      height: calc(100vh - 65px);
+      height: calc(100vh - 61px);
+    }
+    #map-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
     #map {
       width: 100%;
       height: 100%;
       background: #090d16;
     }
+    .map-controls-card {
+      position: absolute;
+      top: 14px;
+      left: 60px;
+      z-index: 999;
+      background: rgba(30, 41, 59, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .toggle-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle-control input[type="checkbox"] {
+      appearance: none;
+      width: 32px;
+      height: 18px;
+      background: #334155;
+      border-radius: 10px;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-control input[type="checkbox"]:checked {
+      background: var(--accent-blue);
+    }
+    .toggle-control input[type="checkbox"]::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      background: white;
+      transition: transform 0.2s;
+    }
+    .toggle-control input[type="checkbox"]:checked::before {
+      transform: translateX(14px);
+    }
     .sidebar {
       background: var(--bg-card);
       border-left: 1px solid var(--border-color);
       overflow-y: auto;
-      padding: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
     .card {
       background: #182234;
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px;
     }
     .card h2 {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
     }
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 10px;
     }
     .metric-box {
       background: var(--bg-dark);
@@ -135,12 +194,12 @@
       text-align: center;
     }
     .metric-box .label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       margin-bottom: 4px;
     }
     .metric-box .number {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--accent-green);
     }
@@ -148,7 +207,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
     .legend-item {
       display: flex;
@@ -161,7 +220,7 @@
       border-radius: 2px;
     }
     .table-container {
-      max-height: 280px;
+      max-height: 260px;
       overflow-y: auto;
       border: 1px solid var(--border-color);
       border-radius: 8px;
@@ -169,7 +228,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       text-align: left;
     }
     th {
@@ -207,8 +266,8 @@
     .popup-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px 12px;
-      font-size: 0.8rem;
+      gap: 5px 10px;
+      font-size: 0.78rem;
     }
     .popup-label {
       color: var(--text-muted);
@@ -217,27 +276,18 @@
       font-weight: 600;
       text-align: right;
     }
-    .tab-btn-group {
-      display: flex;
-      background: var(--bg-dark);
+    .edge-badge {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      color: #38bdf8;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
       border-radius: 8px;
-      padding: 3px;
-      gap: 4px;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 6px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-    .tab-btn.active {
-      background: var(--accent-blue);
-      color: #0f172a;
+      text-align: center;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -253,12 +303,24 @@
       <div class="stat-pill">Stations: <span class="val" id="stat-stations">0</span></div>
       <div class="stat-pill">Delaunay Edges: <span class="val" id="stat-edges">0</span></div>
       <div class="stat-pill">Avg Fix: <span class="val" id="stat-fix">0%</span></div>
-      <div class="stat-pill">Mean 3D RMS: <span class="val" id="stat-rms">0.00m</span></div>
+      <div class="stat-pill">Mean 3D RMS: <span class="val" id="stat-rms">0.000m</span></div>
     </div>
   </header>
 
   <div class="main-layout">
-    <div id="map"></div>
+    <div id="map-container">
+      <div class="map-controls-card">
+        <label class="toggle-control">
+          <input type="checkbox" id="toggle-lengths" checked onchange="toggleEdgeLengths()">
+          <span>Display Edge Lengths (km)</span>
+        </label>
+        <label class="toggle-control">
+          <input type="checkbox" id="toggle-mesh" checked onchange="toggleDelaunayMesh()">
+          <span>Delaunay Mesh</span>
+        </label>
+      </div>
+      <div id="map"></div>
+    </div>
 
     <div class="sidebar">
       <div class="card">
@@ -277,8 +339,8 @@
             <div class="number" id="box-avg-len">0.00 km</div>
           </div>
           <div class="metric-box">
-            <div class="label">Horizontal RMS</div>
-            <div class="number" id="box-horiz-rms">0.02 m</div>
+            <div class="label">3D RMS Error</div>
+            <div class="number" id="box-horiz-rms">0.000 m</div>
           </div>
         </div>
       </div>
@@ -298,12 +360,16 @@
             <div class="legend-color" style="background: #ef4444;"></div>
             <span>Fix Rate &lt; 50% (Float Solution Dominant)</span>
           </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #64748b; border: 1px dashed #94a3b8;"></div>
+            <span>Delaunay Network Link (Triangulation Mesh)</span>
+          </div>
         </div>
       </div>
 
       <div class="card">
         <h2>Error vs Baseline Distance</h2>
-        <canvas id="chart-distance" height="160"></canvas>
+        <canvas id="chart-distance" height="150"></canvas>
       </div>
 
       <div class="card" style="flex: 1; display: flex; flex-direction: column;">
@@ -329,17 +395,19 @@
   </div>
 
   <script>
-    const data = {"timestamp": "2026-08-17 00:00 UTC", "seed": {"lat": 37.4, "lon": -121.97, "dist_km": 100.0}, "summary": {"total_stations": 106, "total_baselines": 2, "overall_fix_rate": 44.9, "mean_3d_rms": 2.131, "avg_length_km": 0.0}, "stations": [{"name": "24DCC3E2A789", "lat": 37.4, "lon": -121.97}, {"name": "94E686860485", "lat": 37.4, "lon": -121.99}, {"name": "24DCC3E29C65", "lat": 37.37, "lon": -122.03}, {"name": "40D95A5702B2", "lat": 37.34, "lon": -121.95}, {"name": "08D1F96378ED", "lat": 37.46, "lon": -121.91}, {"name": "94B555A54D49", "lat": 37.41, "lon": -121.85}, {"name": "40D95A570290", "lat": 37.3, "lon": -121.95}, {"name": "34987A6E288D", "lat": 37.42, "lon": -122.1}, {"name": "C0F535B29F02", "lat": 37.42, "lon": -122.1}, {"name": "40D95A8BFA88", "lat": 37.29, "lon": -122.0}, {"name": "C82E1891B2A1", "lat": 37.39, "lon": -121.84}, {"name": "08D1F9A2D435", "lat": 37.36, "lon": -122.11}, {"name": "9CB8B48C8E10", "lat": 37.52, "lon": -121.96}, {"name": "244CABCEB461", "lat": 37.53, "lon": -121.93}, {"name": "24DCC3E1128D", "lat": 37.36, "lon": -121.81}, {"name": "9CB8B48EBA0C", "lat": 37.36, "lon": -121.81}, {"name": "STFU", "lat": 37.43, "lon": -122.17}, {"name": "40D95A570CE4", "lat": 37.24, "lon": -121.89}, {"name": "9CB8B48E9D12", "lat": 37.28, "lon": -121.81}, {"name": "C05D898E1C8D", "lat": 37.3, "lon": -121.79}, {"name": "9CB8B453C9D6", "lat": 37.47, "lon": -122.23}, {"name": "E465B8A003F9", "lat": 37.23, "lon": -121.76}, {"name": "40D95A57028E", "lat": 37.5, "lon": -122.28}, {"name": "E831CD2ABD31", "lat": 37.52, "lon": -122.3}, {"name": "9CB8B4F0994A", "lat": 37.67, "lon": -122.1}, {"name": "9CB8B48C7DCC", "lat": 37.69, "lon": -122.05}, {"name": "94E686860635", "lat": 37.1, "lon": -121.89}, {"name": "9CB8B48C2D2C", "lat": 37.55, "lon": -122.32}, {"name": "8C4B147727E1", "lat": 37.52, "lon": -122.35}, {"name": "94E686860439", "lat": 37.69, "lon": -122.16}, {"name": "40D95A56A3F2", "lat": 37.72, "lon": -122.09}, {"name": "40D95A5702BE", "lat": 37.71, "lon": -122.17}, {"name": "94E686860601", "lat": 37.71, "lon": -122.17}, {"name": "40D95A5702DA", "lat": 37.15, "lon": -121.66}, {"name": "9CB8B48DF056", "lat": 37.59, "lon": -122.35}, {"name": "E831CDFA7B91", "lat": 37.13, "lon": -121.66}, {"name": "8C4B147973D5", "lat": 37.76, "lon": -121.89}, {"name": "30C6F7BEB9BD", "lat": 37.59, "lon": -122.4}, {"name": "9CB8B48E9CE6", "lat": 37.58, "lon": -122.47}, {"name": "E831CD306D61", "lat": 37.58, "lon": -122.47}, {"name": "30C922A65D1D", "lat": 37.8, "lon": -122.2}, {"name": "C0F535B29F80", "lat": 37.65, "lon": -122.43}, {"name": "E465B89DB1D1", "lat": 37.72, "lon": -122.39}, {"name": "24DCC3E10D61", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C3DA4", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C1C8A", "lat": 37.73, "lon": -122.4}, {"name": "A842E3B1C9F9", "lat": 37.85, "lon": -122.15}, {"name": "5C013B9711E5", "lat": 37.65, "lon": -122.48}, {"name": "24DCC32BB2A1", "lat": 37.02, "lon": -121.58}, {"name": "30C922A64C01", "lat": 37.86, "lon": -122.25}, {"name": "9CB8B48C2C9E", "lat": 37.77, "lon": -122.44}, {"name": "E465B89FF25D", "lat": 37.71, "lon": -121.44}, {"name": "9CB8B4F1FCE2", "lat": 37.88, "lon": -122.27}, {"name": "9CB8B4F099D8", "lat": 37.94, "lon": -122.05}, {"name": "8C4B147ADB6D", "lat": 37.72, "lon": -121.41}, {"name": "E831CD30C699", "lat": 37.95, "lon": -122.06}, {"name": "14335C5CB161", "lat": 37.96, "lon": -121.98}, {"name": "E0E2E6367351", "lat": 37.9, "lon": -121.6}, {"name": "9CB8B48C3CC8", "lat": 37.99, "lon": -122.1}, {"name": "24DCC3E2183D", "lat": 37.99, "lon": -121.81}, {"name": "C05D898E016D", "lat": 38.0, "lon": -122.03}, {"name": "24DCC3E20D15", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E108D1", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E2010D", "lat": 38.02, "lon": -121.91}, {"name": "AC1518EE9485", "lat": 37.8, "lon": -121.34}, {"name": "1097BDCBAD85", "lat": 37.9, "lon": -122.51}, {"name": "40D95A570280", "lat": 38.01, "lon": -122.27}, {"name": "C05D89A91C15", "lat": 38.01, "lon": -122.28}, {"name": "8C4B14797A05", "lat": 38.0, "lon": -122.31}, {"name": "40D95A8C0A6E", "lat": 38.0, "lon": -122.31}, {"name": "AC1518EE37B5", "lat": 37.99, "lon": -122.35}, {"name": "E465B86A03E1", "lat": 37.78, "lon": -121.26}, {"name": "9CB8B48EB9C0", "lat": 38.07, "lon": -122.15}, {"name": "94B555A3B3C5", "lat": 38.07, "lon": -122.15}, {"name": "24DCC3E205E5", "lat": 37.79, "lon": -121.24}, {"name": "30C6F7BE5EC1", "lat": 36.85, "lon": -121.42}, {"name": "40D95A569D1E", "lat": 36.85, "lon": -121.42}, {"name": "40D95A56E896", "lat": 37.82, "lon": -121.22}, {"name": "40D95A569A14", "lat": 38.1, "lon": -122.23}, {"name": "C82E1891A449", "lat": 37.98, "lon": -122.57}, {"name": "5C013B96F7C1", "lat": 38.12, "lon": -122.23}, {"name": "9CB8B4F0EC5C", "lat": 38.12, "lon": -122.23}, {"name": "40D95A5702E4", "lat": 38.12, "lon": -122.25}, {"name": "24DCC3E20D49", "lat": 37.93, "lon": -121.29}, {"name": "9CB8B48D2EE6", "lat": 36.69, "lon": -121.59}, {"name": "30C6F7BED41D", "lat": 36.69, "lon": -121.59}, {"name": "9CB8B48E9C72", "lat": 37.94, "lon": -121.28}, {"name": "40D95A8B7D58", "lat": 37.97, "lon": -121.29}, {"name": "C05D898D22B9", "lat": 36.66, "lon": -121.66}, {"name": "9CB8B48EB9DC", "lat": 37.65, "lon": -121.04}, {"name": "C05D898CC52D", "lat": 37.65, "lon": -121.04}, {"name": "40D95A8B4CFE", "lat": 38.02, "lon": -121.36}, {"name": "40D95A56E898", "lat": 37.96, "lon": -121.27}, {"name": "E465B89FFBF5", "lat": 37.69, "lon": -121.05}, {"name": "24DCC3E10C8D", "lat": 38.16, "lon": -122.26}, {"name": "8C4B1477AE65", "lat": 38.05, "lon": -121.39}, {"name": "40D95A56E440", "lat": 38.02, "lon": -121.32}, {"name": "30C6F7BE42D5", "lat": 37.59, "lon": -120.97}, {"name": "30C6F7BD24A5", "lat": 37.69, "lon": -121.0}, {"name": "9CB8B48BFCC0", "lat": 36.58, "lon": -121.82}, {"name": "34987A6EE501", "lat": 36.58, "lon": -121.82}, {"name": "40D95A5699EE", "lat": 38.22, "lon": -122.13}, {"name": "40D95A57032C", "lat": 38.09, "lon": -122.56}, {"name": "08D1F9637B99", "lat": 37.7, "lon": -120.97}, {"name": "A0B7651E2E09", "lat": 36.53, "lon": -121.87}, {"name": "E465B8A009C1", "lat": 37.73, "lon": -120.92}], "baselines": [{"id": "9CB8B48EB9DC_to_C05D898CC52D", "base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.1666, "dy": 0.1706, "dz": 0.1051}, "modes": {"Option_A": {"fix_rate": 38.6, "n_mean": 0.5959, "e_mean": -0.5549, "u_mean": -0.7936, "n_rms": 0.6442, "e_rms": 0.6222, "u_rms": 0.8472, "rms_3d": 1.2328, "total_epochs": 3600, "fixed_epochs": 1389}}}, {"id": "30C6F7BE5EC1_to_40D95A569D1E", "base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.2933, "dy": -0.0259, "dz": -0.0266}, "modes": {"Option_A": {"fix_rate": 51.1, "n_mean": 0.5323, "e_mean": 0.2765, "u_mean": -2.6277, "n_rms": 0.5701, "e_rms": 0.3474, "u_rms": 2.955, "rms_3d": 3.0295, "total_epochs": 3396, "fixed_epochs": 1735}}}]};
+    const data = {"timestamp": "2026-08-17 00:00 UTC", "seed": {"lat": 37.4, "lon": -121.97, "dist_km": 100.0}, "summary": {"total_stations": 106, "total_baselines": 2, "overall_fix_rate": 44.9, "mean_3d_rms": 2.131, "avg_length_km": 0.0}, "stations": [{"name": "24DCC3E2A789", "lat": 37.4, "lon": -121.97}, {"name": "94E686860485", "lat": 37.4, "lon": -121.99}, {"name": "24DCC3E29C65", "lat": 37.37, "lon": -122.03}, {"name": "40D95A5702B2", "lat": 37.34, "lon": -121.95}, {"name": "08D1F96378ED", "lat": 37.46, "lon": -121.91}, {"name": "94B555A54D49", "lat": 37.41, "lon": -121.85}, {"name": "40D95A570290", "lat": 37.3, "lon": -121.95}, {"name": "34987A6E288D", "lat": 37.42, "lon": -122.1}, {"name": "C0F535B29F02", "lat": 37.42, "lon": -122.1}, {"name": "40D95A8BFA88", "lat": 37.29, "lon": -122.0}, {"name": "C82E1891B2A1", "lat": 37.39, "lon": -121.84}, {"name": "08D1F9A2D435", "lat": 37.36, "lon": -122.11}, {"name": "9CB8B48C8E10", "lat": 37.52, "lon": -121.96}, {"name": "244CABCEB461", "lat": 37.53, "lon": -121.93}, {"name": "24DCC3E1128D", "lat": 37.36, "lon": -121.81}, {"name": "9CB8B48EBA0C", "lat": 37.36, "lon": -121.81}, {"name": "STFU", "lat": 37.43, "lon": -122.17}, {"name": "40D95A570CE4", "lat": 37.24, "lon": -121.89}, {"name": "9CB8B48E9D12", "lat": 37.28, "lon": -121.81}, {"name": "C05D898E1C8D", "lat": 37.3, "lon": -121.79}, {"name": "9CB8B453C9D6", "lat": 37.47, "lon": -122.23}, {"name": "E465B8A003F9", "lat": 37.23, "lon": -121.76}, {"name": "40D95A57028E", "lat": 37.5, "lon": -122.28}, {"name": "E831CD2ABD31", "lat": 37.52, "lon": -122.3}, {"name": "9CB8B4F0994A", "lat": 37.67, "lon": -122.1}, {"name": "9CB8B48C7DCC", "lat": 37.69, "lon": -122.05}, {"name": "94E686860635", "lat": 37.1, "lon": -121.89}, {"name": "9CB8B48C2D2C", "lat": 37.55, "lon": -122.32}, {"name": "8C4B147727E1", "lat": 37.52, "lon": -122.35}, {"name": "94E686860439", "lat": 37.69, "lon": -122.16}, {"name": "40D95A56A3F2", "lat": 37.72, "lon": -122.09}, {"name": "40D95A5702BE", "lat": 37.71, "lon": -122.17}, {"name": "94E686860601", "lat": 37.71, "lon": -122.17}, {"name": "40D95A5702DA", "lat": 37.15, "lon": -121.66}, {"name": "9CB8B48DF056", "lat": 37.59, "lon": -122.35}, {"name": "E831CDFA7B91", "lat": 37.13, "lon": -121.66}, {"name": "8C4B147973D5", "lat": 37.76, "lon": -121.89}, {"name": "30C6F7BEB9BD", "lat": 37.59, "lon": -122.4}, {"name": "9CB8B48E9CE6", "lat": 37.58, "lon": -122.47}, {"name": "E831CD306D61", "lat": 37.58, "lon": -122.47}, {"name": "30C922A65D1D", "lat": 37.8, "lon": -122.2}, {"name": "C0F535B29F80", "lat": 37.65, "lon": -122.43}, {"name": "E465B89DB1D1", "lat": 37.72, "lon": -122.39}, {"name": "24DCC3E10D61", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C3DA4", "lat": 37.84, "lon": -122.14}, {"name": "9CB8B48C1C8A", "lat": 37.73, "lon": -122.4}, {"name": "A842E3B1C9F9", "lat": 37.85, "lon": -122.15}, {"name": "5C013B9711E5", "lat": 37.65, "lon": -122.48}, {"name": "24DCC32BB2A1", "lat": 37.02, "lon": -121.58}, {"name": "30C922A64C01", "lat": 37.86, "lon": -122.25}, {"name": "9CB8B48C2C9E", "lat": 37.77, "lon": -122.44}, {"name": "E465B89FF25D", "lat": 37.71, "lon": -121.44}, {"name": "9CB8B4F1FCE2", "lat": 37.88, "lon": -122.27}, {"name": "9CB8B4F099D8", "lat": 37.94, "lon": -122.05}, {"name": "8C4B147ADB6D", "lat": 37.72, "lon": -121.41}, {"name": "E831CD30C699", "lat": 37.95, "lon": -122.06}, {"name": "14335C5CB161", "lat": 37.96, "lon": -121.98}, {"name": "E0E2E6367351", "lat": 37.9, "lon": -121.6}, {"name": "9CB8B48C3CC8", "lat": 37.99, "lon": -122.1}, {"name": "24DCC3E2183D", "lat": 37.99, "lon": -121.81}, {"name": "C05D898E016D", "lat": 38.0, "lon": -122.03}, {"name": "24DCC3E20D15", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E108D1", "lat": 37.96, "lon": -121.66}, {"name": "24DCC3E2010D", "lat": 38.02, "lon": -121.91}, {"name": "AC1518EE9485", "lat": 37.8, "lon": -121.34}, {"name": "1097BDCBAD85", "lat": 37.9, "lon": -122.51}, {"name": "40D95A570280", "lat": 38.01, "lon": -122.27}, {"name": "C05D89A91C15", "lat": 38.01, "lon": -122.28}, {"name": "8C4B14797A05", "lat": 38.0, "lon": -122.31}, {"name": "40D95A8C0A6E", "lat": 38.0, "lon": -122.31}, {"name": "AC1518EE37B5", "lat": 37.99, "lon": -122.35}, {"name": "E465B86A03E1", "lat": 37.78, "lon": -121.26}, {"name": "9CB8B48EB9C0", "lat": 38.07, "lon": -122.15}, {"name": "94B555A3B3C5", "lat": 38.07, "lon": -122.15}, {"name": "24DCC3E205E5", "lat": 37.79, "lon": -121.24}, {"name": "30C6F7BE5EC1", "lat": 36.85, "lon": -121.42}, {"name": "40D95A569D1E", "lat": 36.85, "lon": -121.42}, {"name": "40D95A56E896", "lat": 37.82, "lon": -121.22}, {"name": "40D95A569A14", "lat": 38.1, "lon": -122.23}, {"name": "C82E1891A449", "lat": 37.98, "lon": -122.57}, {"name": "5C013B96F7C1", "lat": 38.12, "lon": -122.23}, {"name": "9CB8B4F0EC5C", "lat": 38.12, "lon": -122.23}, {"name": "40D95A5702E4", "lat": 38.12, "lon": -122.25}, {"name": "24DCC3E20D49", "lat": 37.93, "lon": -121.29}, {"name": "9CB8B48D2EE6", "lat": 36.69, "lon": -121.59}, {"name": "30C6F7BED41D", "lat": 36.69, "lon": -121.59}, {"name": "9CB8B48E9C72", "lat": 37.94, "lon": -121.28}, {"name": "40D95A8B7D58", "lat": 37.97, "lon": -121.29}, {"name": "C05D898D22B9", "lat": 36.66, "lon": -121.66}, {"name": "9CB8B48EB9DC", "lat": 37.65, "lon": -121.04}, {"name": "C05D898CC52D", "lat": 37.65, "lon": -121.04}, {"name": "40D95A8B4CFE", "lat": 38.02, "lon": -121.36}, {"name": "40D95A56E898", "lat": 37.96, "lon": -121.27}, {"name": "E465B89FFBF5", "lat": 37.69, "lon": -121.05}, {"name": "24DCC3E10C8D", "lat": 38.16, "lon": -122.26}, {"name": "8C4B1477AE65", "lat": 38.05, "lon": -121.39}, {"name": "40D95A56E440", "lat": 38.02, "lon": -121.32}, {"name": "30C6F7BE42D5", "lat": 37.59, "lon": -120.97}, {"name": "30C6F7BD24A5", "lat": 37.69, "lon": -121.0}, {"name": "9CB8B48BFCC0", "lat": 36.58, "lon": -121.82}, {"name": "34987A6EE501", "lat": 36.58, "lon": -121.82}, {"name": "40D95A5699EE", "lat": 38.22, "lon": -122.13}, {"name": "40D95A57032C", "lat": 38.09, "lon": -122.56}, {"name": "08D1F9637B99", "lat": 37.7, "lon": -120.97}, {"name": "A0B7651E2E09", "lat": 36.53, "lon": -121.87}, {"name": "E465B8A009C1", "lat": 37.73, "lon": -120.92}], "delaunay_edges": [{"base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0}, {"base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0}], "baselines": [{"id": "9CB8B48EB9DC_to_C05D898CC52D", "base": "9CB8B48EB9DC", "rover": "C05D898CC52D", "base_lat": 37.65, "base_lon": -121.04, "rover_lat": 37.65, "rover_lon": -121.04, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.1666, "dy": 0.1706, "dz": 0.1051}, "modes": {"Option_A": {"fix_rate": 38.6, "n_mean": 0.5959, "e_mean": -0.5549, "u_mean": -0.7936, "n_rms": 0.6442, "e_rms": 0.6222, "u_rms": 0.8472, "rms_3d": 1.2328, "total_epochs": 3600, "fixed_epochs": 1389}}}, {"id": "30C6F7BE5EC1_to_40D95A569D1E", "base": "30C6F7BE5EC1", "rover": "40D95A569D1E", "base_lat": 36.85, "base_lon": -121.42, "rover_lat": 36.85, "rover_lon": -121.42, "length_km": 0.0, "baseline_vector_ecef_m": {"dx": 0.2933, "dy": -0.0259, "dz": -0.0266}, "modes": {"Option_A": {"fix_rate": 51.1, "n_mean": 0.5323, "e_mean": 0.2765, "u_mean": -2.6277, "n_rms": 0.5701, "e_rms": 0.3474, "u_rms": 2.955, "rms_3d": 3.0295, "total_epochs": 3396, "fixed_epochs": 1735}}}]};
 
     // Update Header & Cards
     document.getElementById('stat-stations').innerText = data.stations ? data.stations.length : 0;
-    document.getElementById('stat-edges').innerText = data.baselines ? data.baselines.length : 0;
+    const totalBaselines = (data.baselines && data.baselines.length > 0) ? data.baselines.length : (data.delaunay_edges ? data.delaunay_edges.length : 0);
+    document.getElementById('stat-edges').innerText = totalBaselines;
     document.getElementById('stat-fix').innerText = (data.summary ? data.summary.overall_fix_rate.toFixed(1) : 100) + '%';
-    document.getElementById('stat-rms').innerText = (data.summary ? data.summary.mean_3d_rms.toFixed(2) : 0.05) + 'm';
+    document.getElementById('stat-rms').innerText = (data.summary ? data.summary.mean_3d_rms.toFixed(3) : '0.000') + 'm';
 
     document.getElementById('box-total-edges').innerText = data.baselines ? data.baselines.length : 0;
     document.getElementById('box-fix-rate').innerText = (data.summary ? data.summary.overall_fix_rate.toFixed(1) : 100) + '%';
     document.getElementById('box-avg-len').innerText = (data.summary ? data.summary.avg_length_km.toFixed(2) : 0) + ' km';
+    document.getElementById('box-horiz-rms').innerText = (data.summary ? data.summary.mean_3d_rms.toFixed(3) : '0.000') + ' m';
     document.getElementById('table-count').innerText = data.baselines ? data.baselines.length : 0;
 
     // Initialize Leaflet Map
@@ -354,8 +422,11 @@
     }).addTo(map);
 
     const bounds = L.latLngBounds();
+    const meshGroup = L.layerGroup().addTo(map);
+    const solvedGroup = L.layerGroup().addTo(map);
+    const labelsGroup = L.layerGroup().addTo(map);
 
-    // Render Station Nodes (Without revealing exact absolute coordinate text for privacy)
+    // Render Station Nodes (Only showing station name, no raw coordinates)
     data.stations.forEach(s => {
       const latlng = [s.lat, s.lon];
       bounds.extend(latlng);
@@ -369,12 +440,54 @@
       }).bindTooltip(`Station: ${s.name}`, { permanent: false }).addTo(map);
     });
 
-    // Render Delaunay Baselines
+    // Render Delaunay Mesh Edges
+    const allEdges = data.delaunay_edges || [];
+    const solvedSet = new Set((data.baselines || []).map(b => `${b.base}_${b.rover}`));
+
+    allEdges.forEach(e => {
+      const isSolved = solvedSet.has(`${e.base}_${e.rover}`) || solvedSet.has(`${e.rover}_${e.base}`);
+      if (!isSolved) {
+        const latlngs = [[e.base_lat, e.base_lon], [e.rover_lat, e.rover_lon]];
+        bounds.extend(latlngs[0]);
+        bounds.extend(latlngs[1]);
+
+        const poly = L.polyline(latlngs, {
+          color: '#64748b',
+          dashArray: '4, 6',
+          weight: 1.5,
+          opacity: 0.6
+        }).addTo(meshGroup);
+
+        poly.bindPopup(`
+          <div class="popup-title">Delaunay Link: ${e.base} &harr; ${e.rover}</div>
+          <div class="popup-grid">
+            <span class="popup-label">Length:</span>
+            <span class="popup-val">${e.length_km.toFixed(2)} km</span>
+            <span class="popup-label">Status:</span>
+            <span class="popup-val" style="color: #94a3b8;">Pending / Queued</span>
+          </div>
+        `);
+
+        // Midpoint badge for edge length
+        const midLat = (e.base_lat + e.rover_lat) / 2;
+        const midLon = (e.base_lon + e.rover_lon) / 2;
+        const badge = L.marker([midLat, midLon], {
+          icon: L.divIcon({
+            className: 'custom-badge-icon',
+            html: `<div class="edge-badge" style="border-color: #64748b; color: #94a3b8;">${e.length_km.toFixed(2)} km</div>`,
+            iconSize: [60, 16],
+            iconAnchor: [30, 8]
+          })
+        }).addTo(labelsGroup);
+      }
+    });
+
+    // Render Solved Baselines
     const tableBody = document.getElementById('table-body');
     const distData = [];
     const rmsData = [];
 
-    data.baselines.forEach(b => {
+    (data.baselines || []).forEach(b => {
       const modeData = b.modes.Option_A || Object.values(b.modes)[0] || {};
       const fixRate = modeData.fix_rate !== undefined ? modeData.fix_rate : 100.0;
       let color = '#22c55e';
@@ -390,9 +503,21 @@
 
       const polyline = L.polyline(latlngs, {
         color: color,
-        weight: 2.5,
-        opacity: 0.85
-      }).addTo(map);
+        weight: 3,
+        opacity: 0.9
+      }).addTo(solvedGroup);
+
+      // Midpoint badge for edge length
+      const midLat = (b.base_lat + b.rover_lat) / 2;
+      const midLon = (b.base_lon + b.rover_lon) / 2;
+      const badge = L.marker([midLat, midLon], {
+        icon: L.divIcon({
+          className: 'custom-badge-icon',
+          html: `<div class="edge-badge" style="border-color: ${color}; color: ${color};">${b.length_km.toFixed(2)} km</div>`,
+          iconSize: [60, 16],
+          iconAnchor: [30, 8]
+        })
+      }).addTo(labelsGroup);
 
       // Popup with 2-decimal component errors, masked coordinates
       const popupHtml = `
@@ -438,7 +563,26 @@
       map.fitBounds(bounds, { padding: [30, 30] });
     }
 
-    // Render Chart
+    // Toggle Controls Handlers
+    function toggleEdgeLengths() {
+      const enabled = document.getElementById('toggle-lengths').checked;
+      if (enabled) {
+        map.addLayer(labelsGroup);
+      } else {
+        map.removeLayer(labelsGroup);
+      }
+    }
+
+    function toggleDelaunayMesh() {
+      const enabled = document.getElementById('toggle-mesh').checked;
+      if (enabled) {
+        map.addLayer(meshGroup);
+      } else {
+        map.removeLayer(meshGroup);
+      }
+    }
+
+    // Render Scatter Chart
     const ctx = document.getElementById('chart-distance').getContext('2d');
     const sortedPairs = distData.map((d, i) => ({ x: d, y: rmsData[i] })).sort((a,b) => a.x - b.x);
     new Chart(ctx, {
@@ -449,7 +593,7 @@
           data: sortedPairs,
           backgroundColor: '#38bdf8',
           borderColor: '#0284c7',
-          pointRadius: 3
+          pointRadius: 4
         }]
       },
       options: {

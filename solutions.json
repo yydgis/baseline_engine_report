@@ -544,6 +544,26 @@
       "lon": -120.92
     }
   ],
+  "delaunay_edges": [
+    {
+      "base": "9CB8B48EB9DC",
+      "rover": "C05D898CC52D",
+      "base_lat": 37.65,
+      "base_lon": -121.04,
+      "rover_lat": 37.65,
+      "rover_lon": -121.04,
+      "length_km": 0.0
+    },
+    {
+      "base": "30C6F7BE5EC1",
+      "rover": "40D95A569D1E",
+      "base_lat": 36.85,
+      "base_lon": -121.42,
+      "rover_lat": 36.85,
+      "rover_lon": -121.42,
+      "length_km": 0.0
+    }
+  ],
   "baselines": [
     {
       "id": "9CB8B48EB9DC_to_C05D898CC52D",
